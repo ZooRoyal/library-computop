@@ -40,7 +40,13 @@ abstract class CTPaymentMethod extends Blowfish
     /**
      * These params should not be send with the computop requests and are filtered out in prepareComputopRequest
      */
-    const paramexcludes = ['MAC' => 'MAC', 'mac' => 'mac', 'blowfishPassword' => 'blowfishPassword', 'merchantID' => 'merchantID'];
+    const paramexcludes = [
+        'blowfishPassword' => 'blowfishPassword',
+        'Language' => 'Language',
+        'MAC' => 'MAC',
+        'mac' => 'mac',
+        'merchantID' => 'merchantID',
+    ];
 
     /**
      * Vom Paygate vergebene ID für die Zahlung. Z.B. zur Referenzierung in Batch-Dateien.
