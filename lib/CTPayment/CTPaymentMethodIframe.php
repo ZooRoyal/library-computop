@@ -27,6 +27,7 @@
 
 namespace Fatchip\CTPayment;
 
+use Fatchip\CTPayment\CTEnums\CTEnumLanguages;
 use Fatchip\CTPayment\CTOrder;
 use Shopware\Plugins\FatchipCTPayment\Util;
 
@@ -49,6 +50,13 @@ abstract class CTPaymentMethodIframe extends CTPaymentMethod
      * @var string
      */
     protected $currency = 'EUR';
+
+    /**
+     * Shop ISO-639-1 language code
+     *
+     * @var string $language
+     */
+    protected $language = 'de';
 
     /**
      * Wenn beim Aufruf angegeben, übergibt das Paygate die Parameter mit dem Zahlungsergebnis an den Shop
@@ -286,6 +294,26 @@ abstract class CTPaymentMethodIframe extends CTPaymentMethod
     }
 
     /**
+     * Language setter
+     *
+     * @param $language
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+    }
+
+    /**
+     * Language getter
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
      * @ignore <description>
      * @param string $UserData
      */
@@ -465,6 +493,19 @@ abstract class CTPaymentMethodIframe extends CTPaymentMethod
     public function getHTTPGetURL($ctRequest)
     {
         return $this->prepareComputopRequest($ctRequest, $this->getCTPaymentURL());
+    }
+
+    /**
+     * Prepares CT Request. Takes all params, creates a querystring, determines Length and encrypts the data
+     *
+     * @param $params
+     * @param $url
+     * @return string
+     */
+    public function prepareComputopRequest($params, $url)
+    {
+        $url = parent::prepareComputopRequest($params, $url);
+        return $url . '&Language=' . CTEnumLanguages::getComputopLanguageCode($this->getLanguage());
     }
 
     /**
